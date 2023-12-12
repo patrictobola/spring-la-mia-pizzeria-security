@@ -2,6 +2,10 @@ package org.java.spring;
 
 import java.util.List;
 
+import org.java.spring.auth.db.pojo.Role;
+import org.java.spring.auth.db.pojo.User;
+import org.java.spring.auth.db.serv.RoleService;
+import org.java.spring.auth.db.serv.UserService;
 import org.java.spring.db.pojo.Discount;
 import org.java.spring.db.pojo.Ingredient;
 import org.java.spring.db.pojo.Pizza;
@@ -14,7 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringLaMiaPizzeriaRelazioniApplication implements CommandLineRunner{
+public class SpringLaMiaPizzeriaSecurityApplication implements CommandLineRunner{
 
 	private static final String IMG_URL = "https://picsum.photos/seed/picsum/50";
 	
@@ -24,13 +28,24 @@ public class SpringLaMiaPizzeriaRelazioniApplication implements CommandLineRunne
 	private DiscountService discountService;
 	@Autowired
 	private IngredientService ingredientService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(SpringLaMiaPizzeriaRelazioniApplication.class, args);
+		SpringApplication.run(SpringLaMiaPizzeriaSecurityApplication.class, args);
 	}
 	
 	@Override
 	public void run(String... args) throws Exception {
+		
+		roleService.save(new Role("Sensei"));
+		
+		List<Role> roles = roleService.findAll();
+		
+		userService.save(new User("polando", "sama", roles.get(0)));
+		
 		
 		ingredientService.save(new Ingredient("Mozzarella"));
 		ingredientService.save(new Ingredient("Pomodoro"));
