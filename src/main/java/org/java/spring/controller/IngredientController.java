@@ -24,7 +24,7 @@ public class IngredientController {
 		model.addAttribute("ingredient", new Ingredient());
 		return "ingredients-list";
 	}
-	@PostMapping("/ingredients")
+	@PostMapping("/ingredients/save")
 	public String addIngredient(@ModelAttribute Ingredient ingredient) {
 		ingredientRepository.save(ingredient);
 		return "redirect:/ingredients";

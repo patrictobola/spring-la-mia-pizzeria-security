@@ -65,22 +65,18 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).toList();
 	}
 
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean isAccountNonExpired() {

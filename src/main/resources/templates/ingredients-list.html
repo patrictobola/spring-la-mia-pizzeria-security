@@ -20,7 +20,7 @@
 		<div class="d-flex justify-content-between mt-5">
 			<a th:href="@{/}" class="btn btn-warning">Main menu</a>
 		</div>
-		<form th:object="${ingredient}" method="post">
+		<form th:object="${ingredient}" th:action="@{/ingredients/save}" method="post">
 			<label id="name" class="form-label">Inserisci nuovo ingrediente</label>
 			<input type="text" name="name" id="name" class="form-control" th:field="*{name}">
 			<button th:href="@{/}" class="btn btn-success mt-3">New ingrediente!</button>

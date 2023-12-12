@@ -2,6 +2,7 @@ package org.java.spring;
 
 import java.util.List;
 
+import org.java.spring.auth.conf.AuthConf;
 import org.java.spring.auth.db.pojo.Role;
 import org.java.spring.auth.db.pojo.User;
 import org.java.spring.auth.db.serv.RoleService;
@@ -40,11 +41,15 @@ public class SpringLaMiaPizzeriaSecurityApplication implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
 		
-		roleService.save(new Role("Sensei"));
+		roleService.save(new Role("ADMIN"));
+		roleService.save(new Role("USER"));
 		
 		List<Role> roles = roleService.findAll();
 		
-		userService.save(new User("polando", "sama", roles.get(0)));
+		String psw = AuthConf.passwordEncoder().encode("sama");
+		
+		userService.save(new User("admin", psw , roles.get(0)));
+		userService.save(new User("user", psw , roles.get(1)));
 		
 		
 		ingredientService.save(new Ingredient("Mozzarella"));
