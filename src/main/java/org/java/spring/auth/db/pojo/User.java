@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
@@ -25,69 +26,83 @@ public class User implements UserDetails {
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
-	
-	public User() { }
+
+	public User() {
+	}
+
 	public User(String username, String password, Role... roles) {
-		
+
 		setUsername(username);
 		setPassword(password);
 		setRoles(roles);
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public List<Role> getRoles() {
 		return roles;
 	}
+
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+
 	public void setRoles(Role... roles) {
 		setRoles(List.of(roles));
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).toList();
 	}
+
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
+
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
+
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
+
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }
