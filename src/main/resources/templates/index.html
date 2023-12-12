@@ -8,6 +8,24 @@
 </head>
 
 <body>
+	<header>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav d-flex w-100 justify-content-between mx-5">
+						<a class="nav-link active" aria-current="page" href="#" th:text="${'Bentornato: ' + #authentication.principal.username}"></a>
+						<a class="nav-link" href="/logout">Slogga!</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+	</header>
 	<h1 th:if="${pizzas.size() == 0}" class="text-center mt-5">NON CI SONO PIZZE!</h1>
 	<div class="container" th:if="${pizzas.size() > 0}">
 		<h1 class="text-center">Lista delle pizze</h1>
@@ -46,8 +64,10 @@
 					<td><img th:src="${pizza.photo}"></td>
 					<td>
 						<a class="btn btn-primary" th:href="@{/pizza/{id}(id=${pizza.id})}">Show</a>
-						<a class="btn btn-warning" th:href="@{/pizza/edit/{id}(id=${pizza.id})}">Edit</a>
-						<a class="btn btn-danger" th:href="@{/pizza/delete/{id}(id=${pizza.id})}"
+						<a class="btn btn-warning" sec:authorize="hasAuthority('ADMIN')"
+							th:href="@{/pizza/edit/{id}(id=${pizza.id})}">Edit</a>
+						<a class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')"
+							th:href="@{/pizza/delete/{id}(id=${pizza.id})}"
 							onclick="return confirm('Sei sicuro di voler eliminare questa pizza?')">Delete</a>
 					</td>
 				</tr>
@@ -55,7 +75,8 @@
 		</table>
 
 		<div class="d-flex justify-content-center">
-			<a th:href="@{/pizza/create}" class="btn btn-success justify-content-center">Create a new pizza!</a>
+			<a th:href="@{/pizza/create}" sec:authorize="hasAuthority('ADMIN')"
+				class="btn btn-success justify-content-center">Create a new pizza!</a>
 			<a th:href="@{/ingredients}" class="btn btn-warning justify-content-center">Look at ingredients!</a>
 		</div>
 	</div>

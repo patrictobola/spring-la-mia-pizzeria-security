@@ -21,7 +21,7 @@
         <ul>
             <li th:each="offer : ${pizza.offers}">
                 <span th:text="${offer.name}"></span>
-                <a th:href="@{'/pizza/discount/edit/' + ${offer.id}}" class="btn btn-warning btn-sm">Edit</a>
+                <a th:href="@{'/pizza/discount/edit/' + ${offer.id}}" sec:authorize="hasAuthority('ADMIN')" class="btn btn-warning btn-sm">Edit</a>
                 <hr />
             </li>
         </ul>
@@ -39,7 +39,7 @@
 				</ul>
 			</div>
         <a href="/" class="btn btn-primary">Back to main menu</a>
-        <a th:href="@{/pizza/discount}" class="btn btn-primary">Create a new offer</a>
+        <a th:href="@{/pizza/discount}" sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary">Create a new offer</a>
     </div>
 </body>
 </html>
